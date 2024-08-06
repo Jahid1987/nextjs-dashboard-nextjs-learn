@@ -6,7 +6,13 @@ import { lusitana } from '@/app/ui/fonts';
 import { InvoicesTableSkeleton } from '@/app/ui/skeletons';
 import { Suspense } from 'react';
 import { fetchInvoicesPages } from '@/app/lib/data';
+import { Metadata } from 'next';
  
+export const metadata: Metadata = {
+  title: 'Invoices',
+  description: 'This is dashboard fo Acme company ltd.'
+};
+
 export default async function Page({
   searchParams,
 }: {
@@ -32,8 +38,6 @@ console.log(query)
         <Search placeholder="Search invoices..." />
         <CreateInvoice />
       </div>
-
-
 
        <Suspense key={query + currentPage} fallback={<InvoicesTableSkeleton />}>
         <Table query={query} currentPage={currentPage} />

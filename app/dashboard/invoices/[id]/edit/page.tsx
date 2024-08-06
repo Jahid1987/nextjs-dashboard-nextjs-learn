@@ -2,7 +2,30 @@ import Form from '@/app/ui/invoices/edit-form';
 import Breadcrumbs from '@/app/ui/invoices/breadcrumbs';
 import { fetchCustomers, fetchInvoiceById } from '@/app/lib/data';
 import { notFound } from 'next/navigation';
+
+import { Metadata, ResolvingMetadata } from 'next'
+
+// rendering dynamic metada
+type Props = {
+  params: { id: string }
+} 
+export async function generateMetadata(
+  { params,  }: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  // read route params
+  const id = params.id
  
+  // fetch data
+  const [invoice] = await Promise.all([
+    fetchInvoiceById(id),
+  ]);
+  return {
+    title: `Invoice | ${invoice.id} | edit`,
+  }
+}
+
+// rendering the page
 export default async function Page({ params }: { params: { id: string } }) {
     const id = params.id;
     const [invoice, customers] = await Promise.all([
